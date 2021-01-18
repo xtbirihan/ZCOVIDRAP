@@ -1,0 +1,355 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: {
+//        description: {
+//            value: 'Country',
+//            type: #STANDARD
+//        },
+        title: {
+            value: 'Country',
+            type: #STANDARD
+        },
+        typeName: 'Country',
+        typeNamePlural: 'Countries',
+        imageUrl: 'Flag'
+    }
+}
+
+@UI.chart: [{ qualifier: 'chrtRadial' ,
+              chartType:         #DONUT ,
+              measures:          ['RecoveredPerOneMillion'],
+              measureAttributes: [{
+                    measure:     'RecoveredPerOneMillion' ,
+                    role: #AXIS_1,
+                    asDataPoint: true
+                    }]
+             }]
+annotate view Z_C_CV_COUNTRYROOT
+    with 
+{
+
+  @UI: {
+    selectionField: [{ position: 10 }],
+    facet: [
+           {
+           id:         'ContinentDataPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Continent'
+          },
+        
+         {
+           id:         'PopulationDataPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Population'
+          },
+
+         {
+           id:         'IsoCode3DataPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Iso3'
+          },
+
+         {
+           id:         'TestDataPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Tests'
+          } ,
+          
+         {
+           id:         'DeathsPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Deaths'
+          },
+         {
+           id:         'RecoveredDataPointFacet',
+           purpose:    #HEADER,
+           type:       #DATAPOINT_REFERENCE,
+           targetQualifier: 'Recovered'
+          },
+// 
+        // Country Detail Section
+         
+          {
+          label: 'Country Detail',
+          type: #COLLECTION,
+          id: 'CountryDetailCollectionFacet',
+          purpose: #STANDARD,
+          position: 10
+          },
+//          
+//          
+        // Basic Data Section
+          {
+            label: 'Basic Data',
+            type: #FIELDGROUP_REFERENCE,
+            id: 'BasicDataFieldGroupReferenceFacet',
+            parentId: 'CountryDetailCollectionFacet',
+            purpose: #STANDARD,
+            targetQualifier: 'BasicDataFieldGroup', 
+            position: 10
+          },
+//          
+         // Statistical Data Section
+         {
+          label: 'Statistical Data',
+          type: #FIELDGROUP_REFERENCE,
+          id: 'CountryStatisticalFieldGroupReferenceFacet',
+          parentId: 'CountryDetailCollectionFacet',
+          purpose: #STANDARD,
+          targetQualifier: 'CountryStatisticalFieldGroup',
+          position: 20
+          
+         },
+//         
+        // Country Province Data
+        {
+          label: 'Country Province',
+          type: #LINEITEM_REFERENCE,
+          id: 'CountryProvinceItemsLineItemReferenceFacet',
+          purpose: #STANDARD,
+          targetElement: '_CountryProvince',
+          position: 20
+        },
+//        
+        // Last 30 Days 
+        {
+          label: 'Last 30 Days',
+          type: #LINEITEM_REFERENCE,
+          id: 'Last30DaysItemsLineItemReferenceFacet',
+          purpose: #STANDARD,
+          targetElement: '_TimeSerial',
+          position: 30
+        }      
+     ],
+     fieldGroup: [{ qualifier: 'CountryFieldGroup', position: 10, importance: #HIGH }]
+  }
+    
+  @UI.lineItem: [{ importance: #HIGH, position: 10 }]
+  Country; 
+  
+  
+  @UI: { lineItem: [{ position: 30, importance: #HIGH }],
+         selectionField: [{ position: 30 }] }   
+  Cases; 
+  
+  @UI.hidden: true
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }      
+      TodayCasesCriticality;
+      
+  @UI: { lineItem: [{ importance: #HIGH, position: 40, 
+                      criticality: 'TodayCasesCriticality', 
+                      criticalityRepresentation: #WITHOUT_ICON, 
+                      value: 'TodayCases'  }],
+    dataPoint: { title: 'Today Cases', criticality: 'TodayCasesCriticality' }
+  }
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }  
+      TodayCases;
+           
+  @UI.hidden: true
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }        
+      DeathsCriticality;
+      
+  @UI: {
+    lineItem: [{ importance: #HIGH, position:50, 
+                 criticality: 'DeathsCriticality', 
+                 criticalityRepresentation: #WITHOUT_ICON, 
+                 value: 'Deaths'  }],
+    dataPoint: { title: 'Deaths', criticality: 'DeathsCriticality' }
+  }
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }        
+      Deaths;
+      
+  @UI.hidden: true
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }       
+      TodayDeathsCriticality;
+ 
+   @UI: {
+    lineItem: [{ importance: #HIGH, position: 60, 
+                 criticality: 'TodayDeathsCriticality', 
+                 criticalityRepresentation: #WITHOUT_ICON, 
+                 value: 'TodayDeaths'  }],
+    dataPoint: { title: 'Today Deaths', criticality: 'TodayDeathsCriticality' }
+  }
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }  
+   TodayDeaths;
+ 
+  @UI.hidden: true
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }       
+      RecoveredCriticality;
+      
+   @UI: {lineItem: [{ importance: #HIGH, position: 70, 
+                      criticality: 'RecoveredCriticality', 
+                      criticalityRepresentation: #WITHOUT_ICON, 
+                      value: 'Recovered'  }],
+    dataPoint: { title: 'Recovered', criticality: 'RecoveredCriticality' }
+  }
+  @Consumption.filter.hidden: true
+  @UI: { selectionField:[ { exclude: true }] }       
+      Recovered;
+    
+  @UI.hidden: true
+  @Consumption.filter.hidden: true
+  @UI: {  selectionField:[ { exclude: true }] }      
+      TodayRecoveredCriticality;
+      
+   @UI: {  lineItem: [{ importance: #HIGH, position: 80, 
+                 criticality: 'TodayRecoveredCriticality', 
+                 criticalityRepresentation: #WITHOUT_ICON, 
+                 value: 'TodayRecovered'  }],
+           dataPoint: { title: 'Today Recovered', criticality: 'TodayRecoveredCriticality' } }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }] }             
+      TodayRecovered;
+
+      @UI: { lineItem: [{ position: 90, importance: #HIGH }],
+             selectionField: [{ exclude: true }] }       
+      Active;
+  
+       @UI: { lineItem: [{ position: 100, importance: #HIGH }],
+             selectionField: [{ exclude: true }] }      
+      Critical;
+ 
+//      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 30, importance: #HIGH }] }
+//      @UI: { selectionField:[ { exclude: true }]}          
+      
+      @UI: { lineItem: [{ position: 110, importance: #HIGH, type: #AS_DATAPOINT
+                         }],
+             selectionField: [{ exclude: true }] }  
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 30, importance: #HIGH }] }
+      @UI.dataPoint: {targetValueElement:'million', visualization:#PROGRESS,   
+                      criticality:'TestsCriticality', criticalityRepresentation: #WITHOUT_ICON} 
+
+      TestsPerOneMillion;      
+      
+ 
+//  @UI.lineItem: [{ position: 110,
+//                   type: #AS_CHART ,
+//                   valueQualifier: 'chrtRadial',
+//                   label: 'Recovered Per 1M'}]
+//  @UI.dataPoint: {  criticalityCalculation:{
+//                      improvementDirection: #MAXIMIZE ,
+//                      deviationRangeLowValue: 50.00 ,
+//                      toleranceRangeLowValue: 75.00 } }
+//  @EndUserText.label: 'Recovered Per 1M'
+//      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position:90, importance: #HIGH }] }
+//      @UI: { selectionField:[ { exclude: true }]}         
+//  RecoveredPerOneMillion;     
+//      
+////////////////////////////////////
+   
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 10, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}            
+      CasesPerOneMillion;
+
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 20, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      DeathsPerOneMillion;
+
+//      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 30, importance: #HIGH }] }
+//      @UI: { selectionField:[ { exclude: true }]}          
+//      TestsPerOneMillion;
+
+      
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 50, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      OneCasePerPeople;
+
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 60, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      OneDeathPerPeople;
+
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 70, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      OneTestPerPeople;
+
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 80, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      ActivePerOneMillion;
+ 
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position:90, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}         
+      RecoveredPerOneMillion;
+
+      @UI: {  fieldGroup: [{ qualifier: 'CountryStatisticalFieldGroup', position: 100, importance: #HIGH }] }
+      @UI: { selectionField:[ { exclude: true }]}          
+      CriticalPerOneMillion;
+      
+///////////////////////////////////
+
+
+
+
+      @UI: {  fieldGroup: [{ qualifier: 'BasicDataFieldGroup', position: 10, importance: #HIGH }] }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }]}      
+      CreatedBy;
+  
+      @UI: {  fieldGroup: [{ qualifier: 'BasicDataFieldGroup', position: 20, importance: #HIGH }] }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }]}            
+      CreatedAt;
+      
+      @UI: {  fieldGroup: [{ qualifier: 'BasicDataFieldGroup', position: 30, importance: #HIGH }] }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }]}           
+      LastChangedBy;
+      
+      @UI: {  fieldGroup: [{ qualifier: 'BasicDataFieldGroup', position: 40, importance: #HIGH }] }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }]}      
+      LastChangedAt;
+      
+      @UI: {  fieldGroup: [{ qualifier: 'BasicDataFieldGroup', position: 50, importance: #HIGH }] }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }]}        
+      LocalLastChangedAt; 
+
+
+
+////////////////////////////////////          
+
+      @UI: { lineItem: [{ importance: #LOW, exclude: true }],
+             dataPoint: { title: 'Continent'  },
+             selectionField: [{ position:20 }],
+             textArrangement: #TEXT_ONLY}
+      Continent;  
+
+      @UI: { lineItem: [{ importance: #LOW, exclude: true}],
+             dataPoint: { title: 'Population'  },
+             selectionField: [{ exclude: true }] }
+      Population;      
+      
+      @UI: { lineItem: [{ importance: #LOW, exclude: true}],
+             dataPoint: { title: 'Iso3'  },
+             selectionField: [{ exclude: true }] }
+       Iso3;        
+
+      @UI: { lineItem: [{ importance: #LOW, exclude: true}],
+             dataPoint: { title: 'Test'  },
+             selectionField: [{ exclude: true }] }
+       Tests;   
+
+//      @UI: { lineItem: [{ importance: #LOW, exclude: true}],
+//             dataPoint: { title: 'Latitude'  },
+//             selectionField: [{ exclude: true }] }
+//       Latitude;   
+//
+//      @UI: { lineItem: [{ importance: #LOW, exclude: true}],
+//             dataPoint: { title: 'Longitude'  },
+//             selectionField: [{ exclude: true }] }
+// 
+//       Longitude;   
+
+}

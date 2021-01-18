@@ -1,0 +1,72 @@
+@Metadata.layer: #CORE
+@UI.presentationVariant: [{ sortOrder: [  { by: 'Timeline', direction: #DESC } ],
+                            visualizations: [{ type: #AS_LINEITEM }] }]
+
+annotate view Z_C_CV_TIMESERIAL
+    with 
+{
+
+      @UI: { selectionField:[ { exclude: true }] , hidden: true }      
+      Country; 
+
+      @UI: { lineItem: [{ position: 10, importance: #HIGH }],
+             selectionField: [{ exclude: true }] }              
+      Timeline ;
+      
+      @UI: { lineItem: [{ position: 20, importance: #HIGH }],
+             selectionField: [{ exclude: true }] }          
+      Province;  
+
+      @UI.hidden: true
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }] }        
+      DeathsCriticality;
+      
+      @UI: {
+        lineItem: [{ importance: #HIGH, position:30, 
+                     criticality: 'DeathsCriticality', 
+                     criticalityRepresentation: #WITHOUT_ICON, 
+                     value: 'Deaths'  }],
+        dataPoint: { title: 'Deaths', criticality: 'DeathsCriticality' }
+      }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }] }        
+      Deaths;
+
+      @UI.hidden: true
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }] }        
+      RecoveredCriticality;
+
+      @UI: {
+        lineItem: [{ importance: #HIGH, position:40, 
+                     criticality: 'RecoveredCriticality', 
+                     criticalityRepresentation: #WITHOUT_ICON,
+                     value: 'Recovered'  }],
+        dataPoint: { title: 'Recovered', criticality: 'RecoveredCriticality' }
+      }
+      @Consumption.filter.hidden: true
+      @UI: { selectionField:[ { exclude: true }] }        
+      Recovered;
+      
+       @UI: { lineItem: [{ position: 50, importance: #MEDIUM }],
+             selectionField: [{ exclude: true }] }   
+      Cases ;     
+      
+      @UI: { selectionField:[ { exclude: true }] , hidden: true }     
+      CreatedBy;
+      
+      @UI: { lineItem: [{ position: 60, importance: #HIGH }],
+             selectionField: [{ exclude: true }] }     
+      CreatedAt;
+      
+      @UI: { selectionField:[ { exclude: true }] , hidden: true }     
+      LastChangedBy;
+      
+      @UI: { selectionField:[ { exclude: true }] , hidden: true }     
+      LastChangedAt;
+      
+      @UI: { selectionField:[ { exclude: true }] , hidden: true }     
+      LocalLastChangedAt; 
+       
+}

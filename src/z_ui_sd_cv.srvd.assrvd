@@ -1,0 +1,9 @@
+@EndUserText.label: 'Serv Definition for CV App'
+define service Z_UI_SD_CV {
+  expose Z_C_CV_COUNTRYROOT as Country;
+  expose Z_C_CV_COUNTRYPROVINCE as CountryProvince;
+  expose Z_C_CV_TIMESERIAL as Last30Days;
+  expose Z_C_ContinentVH as ContinentVH;
+  expose Z_I_CV_COUNTRYVH as CountryVH;
+  expose Z_I_CV_PROVINCEVH as ProvinceVH;
+}
